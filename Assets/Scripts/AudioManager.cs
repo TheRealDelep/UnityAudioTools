@@ -1,23 +1,12 @@
 namespace Delep.Audio
 {
-    using System;
     using UnityEngine;
     using UnityEngine.Audio;
 
-    using static AudioBus;
+    using static Settings.Settings.AudioMixer;
 
     public class AudioManager : MonoBehaviour
     {
-        private const string MasterBusName = "Master";
-        private const string MusicBusName = "Music";
-        private const string SfxBusName = "SFX";
-        private const string UIBusName = "UI";
-        private const string VoicesBusName = "Voices";
-
-        private const int maxVolumeDb = 0;
-        private const int minVolumeDb = -80;
-        private const int volumeHalfStep = 10;
-
         public static AudioManager Instance { get; private set; }
 
         [SerializeField] private AudioMixer mixer;
@@ -37,22 +26,11 @@ namespace Delep.Audio
 #endif
             mixer.SetFloat(GetBusName(audioBus), Mathf.Clamp(volume, 0, 1) switch
             {
-                1 => maxVolumeDb,
-                0 => minVolumeDb,
-                _ => maxVolumeDb + (Mathf.Log(volume, 2) * volumeHalfStep)
-            });
+                0 => MinVolumeDb,
+                1 => MaxVolumeDb,
+                _ => MaxVolumeDb + (Mathf.Log(volume, 2) * VolumeHalfStep)
+            }); ;
         }
-
-        private string GetBusName(AudioBus audioBus)
-            => audioBus switch
-            {
-                Master => MasterBusName,
-                Music => MusicBusName,
-                SFX => SfxBusName,
-                UI => UIBusName,
-                Voices => VoicesBusName,
-                _ => throw new ArgumentException(nameof(audioBus))
-            };
 
         private void Awake()
         {
