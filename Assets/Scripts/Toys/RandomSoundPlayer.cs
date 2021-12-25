@@ -10,7 +10,7 @@ namespace Delep.Audio.Toys
         [SerializeField] private Vector2 randomPitchRange;
 
         private AudioSource Source { get; set; }
-        private int lastClipIndex { get; set; }
+        private int LastClipIndex { get; set; }
 
         private bool RandomizeVolume => randomVolumeRange.x != randomVolumeRange.y;
         private bool RandomizePitchVolume => randomPitchRange.x != randomPitchRange.y;
@@ -22,16 +22,20 @@ namespace Delep.Audio.Toys
 
             if (RandomizeVolume)
             {
+                randomVolumeRange.x = Mathf.Clamp(randomVolumeRange.x, 0, 1);
+                randomVolumeRange.y = Mathf.Clamp(randomVolumeRange.y, 0, 1);
                 Source.volume = Random.Range(randomVolumeRange.x, randomVolumeRange.y);
             }
 
             if (RandomizePitchVolume)
             {
+                randomPitchRange.x = Mathf.Clamp(randomPitchRange.x, -3, 3);
+                randomPitchRange.y = Mathf.Clamp(randomPitchRange.y, -3, 3);
                 Source.pitch = Random.Range(randomPitchRange.x, randomPitchRange.y);
             }
 
             Source.Play();
-            lastClipIndex = index;
+            LastClipIndex = index;
         }
 
         private void Start()
@@ -42,7 +46,7 @@ namespace Delep.Audio.Toys
         private int GenerateClipIndex()
         {
             var rnd = Random.Range(0, clips.Length);
-            return rnd == lastClipIndex
+            return rnd == LastClipIndex
                 ? GenerateClipIndex()
                 : rnd;
         }
