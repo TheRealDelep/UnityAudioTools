@@ -1,6 +1,5 @@
 namespace Delep.Audio
 {
-    using System;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -8,8 +7,11 @@ namespace Delep.Audio
 
     public class VolumeSlider : MonoBehaviour
     {
-        [SerializeField] private AudioBus audioBus;
-        [SerializeField] private float defaultValue;
+        [SerializeField]
+        private AudioBus audioBus;
+
+        [SerializeField]
+        private float defaultValue;
 
         private Slider Slider { get; set; }
         private string PlayerPrefsKey { get; set; }
@@ -25,9 +27,6 @@ namespace Delep.Audio
 
         public void SetBusVolume(float volume)
         {
-#if UNITY_EDITOR
-            _ = AudioManager.Instance ?? throw new NullReferenceException("There is no AudioManager in the scene");
-#endif
             AudioManager.Instance?.SetBusVolume(audioBus, volume);
             PlayerPrefs.SetFloat(PlayerPrefsKey, volume);
         }

@@ -5,9 +5,14 @@ namespace Delep.Audio.Toys
     [RequireComponent(typeof(AudioSource))]
     public class RandomSoundPlayer : MonoBehaviour
     {
-        [SerializeField] private AudioClip[] clips;
-        [SerializeField] private Vector2 randomVolumeRange;
-        [SerializeField] private Vector2 randomPitchRange;
+        [SerializeField]
+        private AudioClip[] clips;
+
+        [SerializeField]
+        private Vector2 randomVolumeRange;
+
+        [SerializeField]
+        private Vector2 randomPitchRange;
 
         private AudioSource Source { get; set; }
         private int LastClipIndex { get; set; }
